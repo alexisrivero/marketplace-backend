@@ -23,4 +23,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id);
     }
 
+    public void deleteUserById(Long userId) throws RuntimeException {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isEmpty()) {
+            throw new RuntimeException("User not found");
+        }
+        userRepository.deleteById(userId);
+    }
+
 }

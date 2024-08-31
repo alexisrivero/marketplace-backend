@@ -27,6 +27,11 @@ public class UserController {
         return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
     }
 
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Object> deleteUserById(@PathVariable("userId") Long userId)  throws RuntimeException{
+        userService.deleteUserById(userId);
+        return ResponseEntity.accepted().build();
+    }
 
 
 }
