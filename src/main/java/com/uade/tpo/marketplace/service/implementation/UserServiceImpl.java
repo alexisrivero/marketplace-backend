@@ -1,7 +1,6 @@
 package com.uade.tpo.marketplace.service.implementation;
 
 import com.uade.tpo.marketplace.entity.User;
-import com.uade.tpo.marketplace.exceptions.CategoryDuplicateException;
 import com.uade.tpo.marketplace.repository.UserRepository;
 import com.uade.tpo.marketplace.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +23,4 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id);
     }
 
-    public User createUser(User user) throws CategoryDuplicateException {
-        Optional<User> users = userRepository.findByEmail(user.getEmail());
-        if (users.isEmpty())
-            return userRepository.save(user);
-        throw new CategoryDuplicateException();
-
-
-    }
 }
