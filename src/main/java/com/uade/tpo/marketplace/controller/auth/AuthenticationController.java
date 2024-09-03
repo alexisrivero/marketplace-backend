@@ -1,7 +1,7 @@
 package com.uade.tpo.marketplace.controller.auth;
 
 import com.uade.tpo.marketplace.exceptions.CategoryDuplicateException;
-import com.uade.tpo.marketplace.service.AuthenticationService;
+import com.uade.tpo.marketplace.service.implementation.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,4 +1,4 @@
-package com.uade.tpo.marketplace.service;
+package com.uade.tpo.marketplace.service.implementation;
 
 import com.uade.tpo.marketplace.controller.auth.AuthenticationRequest;
 import com.uade.tpo.marketplace.controller.auth.AuthenticationResponse;
