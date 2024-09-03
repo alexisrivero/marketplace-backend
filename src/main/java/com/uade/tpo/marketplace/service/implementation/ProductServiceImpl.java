@@ -82,6 +82,32 @@ public class ProductServiceImpl implements ProductService {
         return productToUpdate.get();
     }
 
+    @Override
+    public List<ProductDTO> getAllProductsByBrand(String brand) {
+        List<Product> products = this.productRepository.findByBrand();
+
+        if (products.isEmpty()) {
+            throw new ResourceNotFoundException("There are no products available");
+        }
+
+        return products.stream()
+                .map(this::convertToProductDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductDTO> getAllProductsByCategory(String category) {
+        List<Product> products = this.productRepository.findByCategory();
+
+        if (products.isEmpty()) {
+            throw new ResourceNotFoundException("There are no products available");
+        }
+
+        return products.stream()
+                .map(this::convertToProductDTO)
+                .collect(Collectors.toList());
+    }
+
     private ProductDTO convertToProductDTO(Product product) {
         ProductDTO dto = new ProductDTO();
         dto.setId(product.getId());

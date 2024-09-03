@@ -29,6 +29,18 @@ public class ProductController {
         return new ResponseEntity<>(productDTOList, HttpStatusCode.valueOf(200));
     }
 
+    @GetMapping("brand/{brand}")
+    public ResponseEntity<List<ProductDTO>> getAllProductsByBrand(@PathVariable String brand) {
+        List<ProductDTO> productDTOList = this.productService.getAllProductsByCategory(brand);
+        return new ResponseEntity<>(productDTOList, HttpStatusCode.valueOf(200));
+    }
+
+    @GetMapping("category/category")
+    public ResponseEntity<List<ProductDTO>> getAllProductsByCategory(@PathVariable String category) {
+        List<ProductDTO> productDTOList = this.productService.getAllProductsByCategory(category);
+        return new ResponseEntity<>(productDTOList, HttpStatusCode.valueOf(200));
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable long id) {
         ProductDTO product = this.productService.getProduct(id);
