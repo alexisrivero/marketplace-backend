@@ -6,6 +6,7 @@ import com.uade.tpo.marketplace.controller.auth.RegisterRequest;
 import com.uade.tpo.marketplace.controller.config.JwtService;
 import com.uade.tpo.marketplace.entity.User;
 import com.uade.tpo.marketplace.exceptions.CategoryDuplicateException;
+import com.uade.tpo.marketplace.exceptions.UserAlreadyExistsException;
 import com.uade.tpo.marketplace.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,24 +25,26 @@ public class AuthenticationService {
         private final JwtService jwtService;
         private final AuthenticationManager authenticationManager;
 
-        public AuthenticationResponse register(RegisterRequest request) throws CategoryDuplicateException {
+        public AuthenticationResponse register(RegisterRequest request) {
+                Optional<User> userOptional = repository.findByEmail(request.getEmail());
+
+                if (userOptional.isPresent()) throw new UserAlreadyExistsException("User with the given email already exists");
+
                 var user = User.builder()
-                                .name(request.getName())
-                                .lastName(request.getLastName())
-                                .email(request.getEmail())
-                                .password(passwordEncoder.encode(request.getPassword()))
-                                .phoneNumber(request.getPhoneNumber())
-                                .role(request.getRole())
-                                .build();
-                Optional<User> users = repository.findByEmail(user.getUsername());
-                if (users.isEmpty()){
-                        repository.save(user);
-                        var jwtToken = jwtService.generateToken(user);
-                        return AuthenticationResponse.builder()
-                                .accessToken(jwtToken)
-                                .build();
-                }
-                throw new CategoryDuplicateException();
+                        .name(request.getName())
+                        .lastName(request.getLastName())
+                        .email(request.getEmail())
+                        .password(passwordEncoder.encode(request.getPassword()))
+                        .phoneNumber(request.getPhoneNumber())
+                        .role(request.getRole())
+                        .build();
+
+                repository.save(user);
+                var jwtToken = jwtService.generateToken(user);
+
+                return AuthenticationResponse.builder()
+                        .accessToken(jwtToken)
+                        .build();
 
         }
 
