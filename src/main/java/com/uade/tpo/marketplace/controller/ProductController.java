@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/product/")
+@RequestMapping("/product")
 public class ProductController {
 
     @Autowired
@@ -29,31 +29,31 @@ public class ProductController {
         return new ResponseEntity<>(productDTOList, HttpStatusCode.valueOf(200));
     }
 
-    @GetMapping("brand/{brand}")
+    @GetMapping("/brand/{brand}")
     public ResponseEntity<List<ProductDTO>> getAllProductsByBrand(@PathVariable String brand) {
-        List<ProductDTO> productDTOList = this.productService.getAllProductsByCategory(brand);
+        List<ProductDTO> productDTOList = this.productService.getAllProductsByBrand(brand);
         return new ResponseEntity<>(productDTOList, HttpStatusCode.valueOf(200));
     }
 
-    @GetMapping("category/category")
+    @GetMapping("/category/{category}")
     public ResponseEntity<List<ProductDTO>> getAllProductsByCategory(@PathVariable String category) {
         List<ProductDTO> productDTOList = this.productService.getAllProductsByCategory(category);
         return new ResponseEntity<>(productDTOList, HttpStatusCode.valueOf(200));
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable long id) {
         ProductDTO product = this.productService.getProduct(id);
         return new ResponseEntity<>(product, HttpStatusCode.valueOf(200));
     }
 
-    @DeleteMapping()
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable long id) {
         return new ResponseEntity<>(this.productService.deleteProduct(id), HttpStatusCode.valueOf(200));
     }
 
-    @PutMapping()
-    public ResponseEntity<Product> updateProduct(@PathVariable long id, Product product) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestBody Product product) {
         return new ResponseEntity<>(this.productService.updateProduct(id, product), HttpStatusCode.valueOf(200));
     }
 

@@ -84,7 +84,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDTO> getAllProductsByBrand(String brand) {
-        List<Product> products = this.productRepository.findByBrand();
+        List<Product> products = this.productRepository.findByBrand(brand.toLowerCase());
 
         if (products.isEmpty()) {
             throw new ResourceNotFoundException("There are no products available");
@@ -97,7 +97,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDTO> getAllProductsByCategory(String category) {
-        List<Product> products = this.productRepository.findByCategory();
+        List<Product> products = this.productRepository.findByCategory(category.toLowerCase());
 
         if (products.isEmpty()) {
             throw new ResourceNotFoundException("There are no products available");
@@ -110,7 +110,6 @@ public class ProductServiceImpl implements ProductService {
 
     private ProductDTO convertToProductDTO(Product product) {
         ProductDTO dto = new ProductDTO();
-        dto.setId(product.getId());
         dto.setName(product.getName());
         dto.setBrand(product.getBrand());
         dto.setCategory(product.getCategory());
