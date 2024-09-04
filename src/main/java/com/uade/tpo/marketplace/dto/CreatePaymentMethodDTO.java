@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -12,9 +14,10 @@ import lombok.NoArgsConstructor;
 public class CreatePaymentMethodDTO {
 //Dto used to create a payment method on the checkout
 
-
-    private String name;
-    private double founds;
-    private String paymentType;
+    private String cardType;
+    private String cardNumber;
+    private Date expirationDate;
+    private String ownerName;
+    private double funds;
 
 }
