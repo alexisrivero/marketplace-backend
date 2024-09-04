@@ -1,5 +1,6 @@
 package com.uade.tpo.marketplace.controller;
 
+import com.uade.tpo.marketplace.entity.Address;
 import com.uade.tpo.marketplace.entity.PaymentMethod;
 import com.uade.tpo.marketplace.entity.User;
 import com.uade.tpo.marketplace.service.UserService;
@@ -38,6 +39,12 @@ public class UserController {
     @PostMapping("/{userId}/payment-method")
     public ResponseEntity<User> addPaymentMethodToUser(@PathVariable("userId") Long userId, @RequestBody PaymentMethod paymentMethod) {
         User updatedUser = userService.addPaymentMethodToUser(userId, paymentMethod);
+        return new ResponseEntity<>(updatedUser, HttpStatus.valueOf(200));
+    }
+
+    @PostMapping("/{userId}/address")
+    public ResponseEntity<User> addAddressToUser(@PathVariable("userId") Long userId, @RequestBody Address address) {
+        User updatedUser = userService.addAddressToUser(userId, address);
         return new ResponseEntity<>(updatedUser, HttpStatus.valueOf(200));
     }
 
