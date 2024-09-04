@@ -1,6 +1,5 @@
 package com.uade.tpo.marketplace.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,13 +9,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductDTO {
+public class UserAddressDTO {
+//DTO used for geting an address from the checkout
+
     private long id;
-    private String name;
-    private String brand;
-    private String category;
-    private String description;
-    private double price;
-    private int stock;
-    private String imageRoute;
+
+    private String houseNumber;
+
+    private String street;
+
+    private String city;
+
+    private String state;
 }

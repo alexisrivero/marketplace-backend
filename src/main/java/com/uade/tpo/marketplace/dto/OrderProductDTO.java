@@ -1,22 +1,18 @@
 package com.uade.tpo.marketplace.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class ProductDTO {
-    private long id;
+public class OrderProductDTO {
+//DTO to show information of a specific order Product
+
     private String name;
-    private String brand;
-    private String category;
-    private String description;
     private double price;
-    private int stock;
-    private String imageRoute;
+    private int quantity;
 }
