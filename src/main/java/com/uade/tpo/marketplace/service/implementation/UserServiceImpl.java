@@ -1,5 +1,6 @@
 package com.uade.tpo.marketplace.service.implementation;
 
+import com.uade.tpo.marketplace.entity.Address;
 import com.uade.tpo.marketplace.entity.PaymentMethod;
 import com.uade.tpo.marketplace.entity.User;
 import com.uade.tpo.marketplace.exceptions.ResourceNotFoundException;
@@ -46,6 +47,18 @@ public class UserServiceImpl implements UserService {
         User user = userOptional.get();
         paymentMethod.setUser(user);
         user.getPaymentMethods().add(paymentMethod);
+        return this.userRepository.save(user);
+    }
+
+    @Override
+    public User addAddressToUser(Long userId, Address address) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("User not found with ID: " + userId);
+        }
+        User user = userOptional.get();
+        address.setUser(user);
+        user.getAddresses().add(address);
         return this.userRepository.save(user);
     }
 
