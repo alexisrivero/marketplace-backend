@@ -3,6 +3,7 @@ package com.uade.tpo.marketplace.service.implementation;
 import com.uade.tpo.marketplace.dto.ProductDTO;
 import com.uade.tpo.marketplace.entity.Product;
 import com.uade.tpo.marketplace.exceptions.ResourceNotFoundException;
+import com.uade.tpo.marketplace.mapper.ProductMapper;
 import com.uade.tpo.marketplace.repository.ProductRepository;
 import com.uade.tpo.marketplace.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -18,6 +18,8 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private ProductMapper productMapper;
 
     @Override
     public Product addProduct(Product product) {
@@ -45,9 +47,7 @@ public class ProductServiceImpl implements ProductService {
             throw new ResourceNotFoundException("There are no products available");
         }
 
-        return products.stream()
-                .map(this::convertToProductDTO)
-                .collect(Collectors.toList());
+        return productMapper.productsToProductDTOS(products);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
             throw new ResourceNotFoundException("There is no product with this id");
         }
 
-        return convertToProductDTO(product.get());
+        return productMapper.productToProductDTO(product.get());
     }
 
     @Override
@@ -90,9 +90,7 @@ public class ProductServiceImpl implements ProductService {
             throw new ResourceNotFoundException("There are no products available");
         }
 
-        return products.stream()
-                .map(this::convertToProductDTO)
-                .collect(Collectors.toList());
+        return productMapper.productsToProductDTOS(products);
     }
 
     @Override
@@ -103,21 +101,7 @@ public class ProductServiceImpl implements ProductService {
             throw new ResourceNotFoundException("There are no products available");
         }
 
-        return products.stream()
-                .map(this::convertToProductDTO)
-                .collect(Collectors.toList());
-    }
-
-    private ProductDTO convertToProductDTO(Product product) {
-        ProductDTO dto = new ProductDTO();
-        dto.setName(product.getName());
-        dto.setBrand(product.getBrand());
-        dto.setCategory(product.getCategory());
-        dto.setDescription(product.getDescription());
-        dto.setPrice(product.getPrice());
-        dto.setStock(product.getStock());
-        dto.setImageRoute(product.getImageRoute());
-        return dto;
+        return productMapper.productsToProductDTOS(products);
     }
 
 
