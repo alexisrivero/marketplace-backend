@@ -1,8 +1,10 @@
 package com.uade.tpo.marketplace.controller;
 
+import com.uade.tpo.marketplace.entity.PaymentMethod;
 import com.uade.tpo.marketplace.entity.User;
 import com.uade.tpo.marketplace.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +33,12 @@ public class UserController {
     public ResponseEntity<Object> deleteUserById(@PathVariable("userId") Long userId)  throws RuntimeException{
         userService.deleteUserById(userId);
         return ResponseEntity.accepted().build();
+    }
+
+    @PostMapping("/{userId}/payment-method")
+    public ResponseEntity<User> addPaymentMethodToUser(@PathVariable("userId") Long userId, @RequestBody PaymentMethod paymentMethod) {
+        User updatedUser = userService.addPaymentMethodToUser(userId, paymentMethod);
+        return new ResponseEntity<>(updatedUser, HttpStatus.valueOf(200));
     }
 
 

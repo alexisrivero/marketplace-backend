@@ -1,5 +1,6 @@
 package com.uade.tpo.marketplace.service;
 
+import com.uade.tpo.marketplace.entity.PaymentMethod;
 import com.uade.tpo.marketplace.entity.User;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface UserService {
     Optional<User> getUserById(Long id);
 
     void deleteUserById(Long userId) throws RuntimeException;
+
+    User addPaymentMethodToUser(Long userId, PaymentMethod paymentMethod);
 }

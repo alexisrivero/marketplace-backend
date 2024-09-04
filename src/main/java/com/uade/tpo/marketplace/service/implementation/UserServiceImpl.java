@@ -1,6 +1,8 @@
 package com.uade.tpo.marketplace.service.implementation;
 
+import com.uade.tpo.marketplace.entity.PaymentMethod;
 import com.uade.tpo.marketplace.entity.User;
+import com.uade.tpo.marketplace.exceptions.ResourceNotFoundException;
 import com.uade.tpo.marketplace.repository.UserRepository;
 import com.uade.tpo.marketplace.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +22,32 @@ public class UserServiceImpl implements UserService {
     }
 
     public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            throw new ResourceNotFoundException("User not found with ID: " + id);
+        }
+        return user;
     }
 
     public void deleteUserById(Long userId) throws RuntimeException {
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()) {
-            throw new RuntimeException("User not found");
+            throw new ResourceNotFoundException("User not found with ID: " + userId);
         }
         userRepository.deleteById(userId);
     }
+
+    @Override
+    public User addPaymentMethodToUser(Long userId, PaymentMethod paymentMethod) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("User not found with ID: " + userId);
+        }
+        User user = userOptional.get();
+        paymentMethod.setUser(user);
+        user.getPaymentMethods().add(paymentMethod);
+        return this.userRepository.save(user);
+    }
+
 
 }
