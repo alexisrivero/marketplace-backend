@@ -217,11 +217,10 @@ public class CheckoutServiceImpl implements CheckoutService {
 
         orderRepository.save(order);
 
-        deleteCheckout(email);
+        deleteCheckout(authHeader);
     }
 
-    private void setPaymentMethodFounds(Transaction transaction)
-    {
+    private void setPaymentMethodFounds(Transaction transaction) {
         if (transaction.getAmount() > transaction.getPaymentMethod().getFunds()) {
             throw new NotEnoughFundsException("Not enough funds on your payment method");
         }
@@ -238,8 +237,7 @@ public class CheckoutServiceImpl implements CheckoutService {
         return transactionRepository.save(transaction);
     }
 
-    private double createOrderProductsCalculateTotal(Checkout checkout, Order order)
-    {
+    private double createOrderProductsCalculateTotal(Checkout checkout, Order order) {
         double total = 0;
         for (int i= 0; i < checkout.getCheckoutProductList().size();i++) {
             OrderProduct orderProduct = CheckoutOrderMapper.INSTANCE.
@@ -381,6 +379,8 @@ public class CheckoutServiceImpl implements CheckoutService {
 
     private String getEmailFromAuthHeader(String authHeader) {
         String jwt = authHeader.substring(7);
+
+        System.out.println("JWT: " + jwt);
 
         return jwtService.extractUsername(jwt);
     }
