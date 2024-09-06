@@ -19,6 +19,6 @@ public class OrderDTO {
     private String lastName;
     private CreateAddressDTO address;
     private PaymentMethodNoIdDTO paymentMethod;
-    private List<OrderProductDTO> orderProducts;
+    private List<OrderProductDTO> orderProductList;
     private double total;
 }

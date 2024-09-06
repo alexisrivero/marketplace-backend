@@ -22,6 +22,9 @@ public interface CheckoutMapper {
     CheckoutDTO checkoutToCheckoutDTO(Checkout checkout);
 
     @Mapping(target = "name", source = "product.name")
+    @Mapping(target = "brand", source = "product.brand")
+    @Mapping(target = "category", source = "product.category")
+    @Mapping(target = "description", source = "product.description")
     @Mapping(target = "price", source = "product.price")
     @Mapping(target = "quantity", source = "checkoutProduct.quantity")
     CheckoutProductDTO checkoutProductAndProductToProductCheckoutDTO (CheckoutProduct checkoutProduct, Product product);

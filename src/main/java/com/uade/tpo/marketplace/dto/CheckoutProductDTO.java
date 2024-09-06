@@ -13,6 +13,9 @@ public class CheckoutProductDTO {
 //DTO used to show  only some information of the product checkout
 
     private String name;
+    private String brand;
+    private String category;
+    private String description;
     private double price;
     private int quantity;
 }

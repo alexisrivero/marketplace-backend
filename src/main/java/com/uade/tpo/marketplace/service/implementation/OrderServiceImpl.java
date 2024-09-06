@@ -84,7 +84,7 @@ public class OrderServiceImpl implements OrderService {
                     (orderProduct,orderProduct.getProduct());
             orderProductDTOS.add(dto);
         }
-        orderDTO.setOrderProducts(orderProductDTOS);
+        orderDTO.setOrderProductList(orderProductDTOS);
     }
 
     private User getUser (String email) {

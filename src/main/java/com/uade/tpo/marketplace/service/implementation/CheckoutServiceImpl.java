@@ -187,8 +187,7 @@ public class CheckoutServiceImpl implements CheckoutService {
 
         PaymentMethod paymentMethod = paymentMethodRepository.findByUserAndId(user,id);
 
-        if (paymentMethod == null)
-        {
+        if (paymentMethod == null) {
             throw new ResourceNotFoundException("We could not find a payment method with this id in this user");
         }
 
@@ -224,7 +223,7 @@ public class CheckoutServiceImpl implements CheckoutService {
     private void setPaymentMethodFounds(Transaction transaction)
     {
         if (transaction.getAmount() > transaction.getPaymentMethod().getFunds()) {
-            throw new NotEnoughFundsException("Not enough founds on your payment method");
+            throw new NotEnoughFundsException("Not enough funds on your payment method");
         }
         transaction.getPaymentMethod().setFunds(transaction.getPaymentMethod().getFunds() - transaction.getAmount());
         paymentMethodRepository.save(transaction.getPaymentMethod());
@@ -232,7 +231,6 @@ public class CheckoutServiceImpl implements CheckoutService {
 
 
     private Transaction generateTransaction (Order order) {
-        //Generate Transaction
         Transaction transaction = Transaction.builder()
                 .paymentMethod(order.getPaymentMethod())
                 .amount(order.getTotal())
@@ -273,10 +271,9 @@ public class CheckoutServiceImpl implements CheckoutService {
 
         if (calculateCheckoutSubtotal(checkout) > createOrder.getPaymentMethod().getFunds())
         {
-            throw new NotEnoughFundsException("Not enough founds on your payment method");
+            throw new NotEnoughFundsException("Not enough funds on your payment method");
         }
 
-        //Generate basic order
         return orderRepository.save(createOrder);
     }
 

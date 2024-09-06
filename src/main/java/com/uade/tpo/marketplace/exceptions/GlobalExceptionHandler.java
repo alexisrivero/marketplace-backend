@@ -19,7 +19,22 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ResourceAlreadyExistsException.class)
-    public ResponseEntity<String> ResourceUserAlreadyExistsException(ResourceAlreadyExistsException ex) {
+    public ResponseEntity<String> handleResourceUserAlreadyExistsException(ResourceAlreadyExistsException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(NotEnoughFundsException.class)
+    public ResponseEntity<String> handleNotEnoughFundsException(NotEnoughFundsException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotEnoughStockException.class)
+    public ResponseEntity<String> handleNotEnoughStockException(NotEnoughStockException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RequiredInformationNullException.class)
+    public ResponseEntity<String> handleRequiredInformationNullException(RequiredInformationNullException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

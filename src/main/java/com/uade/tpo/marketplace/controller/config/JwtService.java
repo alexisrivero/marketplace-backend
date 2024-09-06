@@ -20,14 +20,11 @@ public class JwtService {
     @Value("${application.security.jwt.expiration}")
     private long jwtExpiration;
 
-    public String generateToken(
-            UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails) {
         return buildToken(userDetails, jwtExpiration);
     }
 
-    private String buildToken(
-            UserDetails userDetails,
-            long expiration) {
+    private String buildToken(UserDetails userDetails,long expiration) {
         return Jwts
                 .builder()
                 .subject(userDetails.getUsername()) // prueba@hotmail.com
