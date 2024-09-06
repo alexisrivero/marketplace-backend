@@ -32,6 +32,15 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
+    public List<OrderDTO> getAllOrders() {
+        List<Order> orders = this.orderRepository.findAll();
+
+        if (orders.isEmpty()) throw new ResourceNotFoundException("There are no orders");
+
+        return getOrderDTOS(orders);
+    }
+
+    @Override
     public List<OrderDTO> getCurrentUserOrders(String authHeader) {
         String email = this.getEmailFromAuthHeader(authHeader);
 
@@ -41,18 +50,7 @@ public class OrderServiceImpl implements OrderService {
 
         if (orders.isEmpty()) throw new ResourceNotFoundException("This user has no orders");
 
-        List<OrderDTO> orderDTOS = new ArrayList<>();
-
-        for (Order order: orders)
-        {
-            OrderDTO dto = OrderMapper.INSTANCE.orderToOrderDTO(order);
-
-            mappingOrderProducts(dto,order);
-
-            orderDTOS.add(dto);
-        }
-
-        return orderDTOS;
+        return getOrderDTOS(orders);
 
     }
 
@@ -99,6 +97,16 @@ public class OrderServiceImpl implements OrderService {
         String jwt = authHeader.substring(7);
 
         return jwtService.extractUsername(jwt);
+    }
+    private List<OrderDTO> getOrderDTOS(List<Order> orders) {
+        List<OrderDTO> orderDTOS = new ArrayList<>();
+        for (Order order: orders)
+        {
+            OrderDTO dto = OrderMapper.INSTANCE.orderToOrderDTO(order);
+            mappingOrderProducts(dto,order);
+            orderDTOS.add(dto);
+        }
+        return orderDTOS;
     }
 
 }
