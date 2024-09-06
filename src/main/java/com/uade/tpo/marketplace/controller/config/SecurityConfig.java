@@ -3,6 +3,7 @@ package com.uade.tpo.marketplace.controller.config;
 import com.uade.tpo.marketplace.entity.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,12 +29,19 @@ public class SecurityConfig {
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http
                                 .csrf(AbstractHttpConfigurer::disable)
-                                .authorizeHttpRequests(req -> req.requestMatchers("/api/v1/auth/**").permitAll()
-                                                .requestMatchers("/error/**").permitAll()
-                                                .requestMatchers("/product/**").permitAll()
-                                                .requestMatchers("/user/**").hasAnyAuthority(Role.ADMIN.name())
-                                                .anyRequest()
-                                                .authenticated())
+                                .authorizeHttpRequests(req -> req
+                                        .requestMatchers("/api/v1/auth/**").permitAll()
+                                        .requestMatchers("/error/**").permitAll()
+                                        .requestMatchers(HttpMethod.GET, "/product/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
+                                        .requestMatchers("/user/address").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
+                                        .requestMatchers("/user/payment-method").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
+                                        .requestMatchers("/checkout/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
+                                        .requestMatchers("/order/user/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
+                                        .requestMatchers("/user/**").hasAnyAuthority(Role.ADMIN.name())
+                                        .requestMatchers("/product/**").hasAnyAuthority(Role.ADMIN.name())
+                                        .requestMatchers("/order/**").hasAnyAuthority(Role.ADMIN.name())
+                                        .anyRequest().authenticated()
+                        )
                                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                                 .authenticationProvider(authenticationProvider)
                                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
