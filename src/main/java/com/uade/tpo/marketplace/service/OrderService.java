@@ -10,4 +10,6 @@ public interface OrderService {
     List<OrderDTO> getCurrentUserOrders(String email);
 
     OrderDTO getCurrentUserOrderById(String email,long id);
+
+    OrderDTO getOrderById(long id);
 }

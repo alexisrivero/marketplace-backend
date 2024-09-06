@@ -15,10 +15,15 @@ public class OrderController {
     private OrderService orderService;
 
     //TODO: get All orders y get Order By Id (todo esto sin tener en cuenta el current user, seria para el usuario administrador
-    @GetMapping("/all")
+    @GetMapping("/admin")
     public List<OrderDTO> getAllOrders()
     {
         return this.orderService.getAllOrders();
+    }
+    @GetMapping("/admin/{id}")
+    public OrderDTO getOrderById(@PathVariable long id)
+    {
+        return this.orderService.getOrderById(id);
     }
     @GetMapping()
     public List<OrderDTO> getCurrentUserOrders(@RequestHeader("Authorization") String authHeader)
