@@ -15,7 +15,7 @@ public class OrderDTO {
     //Dto used to show the information of an specific order
 
     private long id;
-    private String firstName;
+    private String name;
     private String lastName;
     private CreateAddressDTO address;
     private PaymentMethodNoIdDTO paymentMethod;

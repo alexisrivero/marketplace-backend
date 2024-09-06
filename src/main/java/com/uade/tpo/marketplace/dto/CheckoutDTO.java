@@ -14,8 +14,8 @@ import java.util.List;
 public class CheckoutDTO {
 //DTO to show on JSON all the info of a checkout
 
-    private String userName;
-    private String firstName;
+    private String email;
+    private String name;
     private String lastName;
     private List<CheckoutProductDTO> checkoutProducts;
     private CreateAddressDTO address;
