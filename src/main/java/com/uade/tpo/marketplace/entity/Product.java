@@ -21,10 +21,10 @@ public class Product {
     @Column
     private String name;
 
-    @Column
+    @Column(name = "brand")
     private String brand;
 
-    @Column
+    @Column(name = "category")
     private String category;
 
     @Column

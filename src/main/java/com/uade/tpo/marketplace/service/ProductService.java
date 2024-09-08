@@ -2,7 +2,6 @@ package com.uade.tpo.marketplace.service;
 
 import com.uade.tpo.marketplace.dto.ProductDTO;
 import com.uade.tpo.marketplace.entity.Product;
-import com.uade.tpo.marketplace.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -13,6 +12,8 @@ public interface ProductService {
     String deleteProduct(long id);
 
     List<ProductDTO> getAllProducts();
+
+    List<Product> getProductsByFilter(String brand, String category, Double minPrice, Double maxPrice);
 
     ProductDTO getProduct(long id);
 

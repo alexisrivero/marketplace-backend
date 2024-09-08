@@ -29,6 +29,16 @@ public class ProductController {
         return new ResponseEntity<>(productDTOList, HttpStatusCode.valueOf(200));
     }
 
+    @GetMapping("/filter")
+    public List<Product> getProductsByFilter(
+            @RequestParam(required = false) String brand,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice) {
+
+        return productService.getProductsByFilter(brand, category, minPrice, maxPrice);
+    }
+
     @GetMapping("/brand/{brand}")
     public ResponseEntity<List<ProductDTO>> getAllProductsByBrand(@PathVariable String brand) {
         List<ProductDTO> productDTOList = this.productService.getAllProductsByBrand(brand);
