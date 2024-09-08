@@ -67,6 +67,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void editAddress(Long addressId, CreateAddressDTO createAddressDTO) {
+        Optional<Address> foundAddress = this.addressRepository.findById(addressId);
+
+        if (foundAddress.isEmpty()) throw new ResourceNotFoundException("This Address does not exist");
+
+        Address addressToUpdate = foundAddress.get();
+
+        addressToUpdate.setState(createAddressDTO.getState());
+        addressToUpdate.setCity(createAddressDTO.getCity());
+        addressToUpdate.setStreet(createAddressDTO.getStreet());
+        addressToUpdate.setHouseNumber(createAddressDTO.getHouseNumber());
+        addressToUpdate.setDescription(createAddressDTO.getDescription());
+
+        addressRepository.save(addressToUpdate);
+    }
+
+    @Override
+    public void deleteAddress(Long addressId) {
+        Optional<Address> foundAddress = this.addressRepository.findById(addressId);
+
+        if (foundAddress.isEmpty()) throw new ResourceNotFoundException("This Address does not exist");
+
+        this.addressRepository.delete(foundAddress.get());
+    }
+
+    @Override
     public List<PaymentMethodDTO> getAllPaymentMethods(String authHeader) {
         String email = this.getEmailFromAuthHeader(authHeader);
 
@@ -90,6 +116,31 @@ public class UserServiceImpl implements UserService {
         createPaymentMethod.setUser(user);
 
         paymentMethodRepository.save(createPaymentMethod);
+    }
+
+    @Override
+    public void editPaymentMethod(Long paymentMethodId, CreatePaymentMethodDTO createPaymentMethodDTO) {
+        Optional<PaymentMethod> foundPaymentMethod = this.paymentMethodRepository.findById(paymentMethodId);
+
+        if (foundPaymentMethod.isEmpty()) throw new ResourceNotFoundException("This Payment Method does not exist");
+
+        PaymentMethod paymentMethodToUpdate = foundPaymentMethod.get();
+
+        paymentMethodToUpdate.setCardType(createPaymentMethodDTO.getCardType());
+        paymentMethodToUpdate.setCardNumber(createPaymentMethodDTO.getCardNumber());
+        paymentMethodToUpdate.setExpirationDate(createPaymentMethodDTO.getExpirationDate());
+        paymentMethodToUpdate.setOwnerName(createPaymentMethodDTO.getOwnerName());
+
+        this.paymentMethodRepository.save(paymentMethodToUpdate);
+    }
+
+    @Override
+    public void deletePaymentMethod(Long paymentMethodId) {
+        Optional<PaymentMethod> foundPaymentMethod = this.paymentMethodRepository.findById(paymentMethodId);
+
+        if (foundPaymentMethod.isEmpty()) throw new ResourceNotFoundException("This Payment Method does not exist");
+
+        this.paymentMethodRepository.delete(foundPaymentMethod.get());
     }
 
     public List<User> getAllUsers() {

@@ -20,11 +20,13 @@ public class OrderController {
     {
         return this.orderService.getAllOrders();
     }
+
     @GetMapping("/{id}")
     public OrderDTO getOrderById(@PathVariable long id)
     {
         return this.orderService.getOrderById(id);
     }
+
     @GetMapping("/user")
     public List<OrderDTO> getCurrentUserOrders(@RequestHeader("Authorization") String authHeader)
     {

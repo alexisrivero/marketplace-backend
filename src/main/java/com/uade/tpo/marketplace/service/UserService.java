@@ -13,12 +13,14 @@ public interface UserService {
     UserDTO getUser(String email);
     List<UserAddressDTO> getAllAddresses(String authHeader);
     void createAddress(String authHeader, CreateAddressDTO createAddressDTO);
+    void editAddress(Long addressId, CreateAddressDTO createAddressDTO);
+    void deleteAddress(Long addressId);
     List<PaymentMethodDTO> getAllPaymentMethods(String authHeader);
     void createPaymentMethod(String authHeader, CreatePaymentMethodDTO createPaymentMethodDTO);
-
+    void editPaymentMethod(Long paymentMethodId, CreatePaymentMethodDTO createPaymentMethodDTO);
+    void deletePaymentMethod(Long paymentMethodId);
     List<User> getAllUsers();
     Optional<User> getUserById(Long id);
-
     void deleteUserById(Long userId) throws RuntimeException;
 
 }
