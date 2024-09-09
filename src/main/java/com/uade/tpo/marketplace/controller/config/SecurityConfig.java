@@ -32,7 +32,7 @@ public class SecurityConfig {
                                 .authorizeHttpRequests(req -> req
                                         .requestMatchers("/api/v1/auth/**").permitAll()
                                         .requestMatchers("/error/**").permitAll()
-                                        .requestMatchers(HttpMethod.GET, "/product/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
+                                        .requestMatchers(HttpMethod.GET, "/product/**").permitAll()
                                         .requestMatchers("/user/address").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
                                         .requestMatchers("/user/payment-method").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
                                         .requestMatchers("/checkout/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
