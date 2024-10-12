@@ -22,4 +22,6 @@ public interface ProductService {
     List<ProductDTO> getAllProductsByBrand(String brand);
 
     List<ProductDTO> getAllProductsByCategory(String category);
+
+    List<String> getCategories();
 }

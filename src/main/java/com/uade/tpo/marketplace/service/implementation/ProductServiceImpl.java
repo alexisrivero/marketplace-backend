@@ -145,5 +145,18 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.productsToProductDTOS(products);
     }
 
+    @Override
+    public List<String> getCategories() {
+        List<Product> products = this.productRepository.findAll();
+        List<String> categories = new ArrayList<>();
+
+        for (Product product : products) {
+            if (!categories.contains(product.getCategory())) {
+                categories.add(product.getCategory());
+            }
+        }
+        return categories;
+    }
+
 
 }
