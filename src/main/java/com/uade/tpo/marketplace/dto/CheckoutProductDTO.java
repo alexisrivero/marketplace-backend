@@ -12,10 +12,12 @@ import lombok.NoArgsConstructor;
 public class CheckoutProductDTO {
 //DTO used to show  only some information of the product checkout
 
+    private Long id;
     private String name;
     private String brand;
     private String category;
     private String description;
     private double price;
     private int quantity;
+    private String imageRoute;
 }

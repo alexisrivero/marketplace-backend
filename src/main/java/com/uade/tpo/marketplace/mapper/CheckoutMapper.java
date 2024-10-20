@@ -21,11 +21,13 @@ public interface CheckoutMapper {
     @Mapping(target = "lastName", source = "checkout.user.lastName")
     CheckoutDTO checkoutToCheckoutDTO(Checkout checkout);
 
+    @Mapping(target = "id", source = "product.id")
     @Mapping(target = "name", source = "product.name")
     @Mapping(target = "brand", source = "product.brand")
     @Mapping(target = "category", source = "product.category")
     @Mapping(target = "description", source = "product.description")
     @Mapping(target = "price", source = "product.price")
     @Mapping(target = "quantity", source = "checkoutProduct.quantity")
+    @Mapping(target = "imageRoute", source = "product.imageRoute")
     CheckoutProductDTO checkoutProductAndProductToProductCheckoutDTO (CheckoutProduct checkoutProduct, Product product);
 }
