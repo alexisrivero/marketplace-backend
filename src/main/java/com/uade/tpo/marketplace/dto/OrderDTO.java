@@ -20,5 +20,6 @@ public class OrderDTO {
     private CreateAddressDTO address;
     private PaymentMethodNoIdDTO paymentMethod;
     private List<OrderProductDTO> orderProductList;
+    private double subTotal;
     private double total;
 }

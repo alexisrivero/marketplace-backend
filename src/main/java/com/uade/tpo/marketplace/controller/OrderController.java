@@ -39,4 +39,9 @@ public class OrderController {
         return this.orderService.getCurrentUserOrderById(authHeader,id);
     }
 
+    @GetMapping("/elegible")
+    public boolean esElegible(@RequestHeader("Authorization") String authHeader) {
+        return this.orderService.esElegible(authHeader);
+    }
+
 }

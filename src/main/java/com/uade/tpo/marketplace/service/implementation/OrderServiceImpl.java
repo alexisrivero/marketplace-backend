@@ -37,6 +37,12 @@ public class OrderServiceImpl implements OrderService {
 
         if (orders.isEmpty()) throw new ResourceNotFoundException("There are no orders");
 
+        for (Order order: orders) {
+            String cardNumber = order.getPaymentMethod().getCardNumber();
+            String[] parts = cardNumber.split(" ");
+            order.getPaymentMethod().setCardNumber(cardNumber.replace(cardNumber, "**** **** **** " + parts[3]));
+        }
+
         return getOrderDTOS(orders);
     }
 
@@ -118,6 +124,16 @@ public class OrderServiceImpl implements OrderService {
             orderDTOS.add(dto);
         }
         return orderDTOS;
+    }
+
+    public boolean esElegible(String authHeader) {
+        String email = this.getEmailFromAuthHeader(authHeader);
+
+        User user = this.getUser(email);
+
+        List<Order> orders = this.orderRepository.findAllByUser(user);
+
+        return orders.isEmpty();
     }
 
 }

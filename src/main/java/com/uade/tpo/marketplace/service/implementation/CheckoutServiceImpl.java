@@ -68,6 +68,13 @@ public class CheckoutServiceImpl implements CheckoutService {
         checkoutDTO.setCheckoutProducts(checkoutProductDTO);
 
         checkoutDTO.setSubTotal(calculateCheckoutSubtotal(checkout));
+
+        if (isEligibleForDiscount(email)) {
+            checkoutDTO.setTotal(this.applyDiscount(checkoutDTO.getSubTotal(), 0.15));
+        } else {
+            checkoutDTO.setTotal(checkoutDTO.getSubTotal());
+        }
+
         return checkoutDTO;
     }
 
@@ -201,13 +208,27 @@ public class CheckoutServiceImpl implements CheckoutService {
 
         User user = getUser(email);
 
+        boolean isEligible = isEligibleForDiscount(email);
+
         Checkout checkout = getCheckout(user);
 
         mandatoryCheckoutElementsValidation(checkout);
 
         Order order = createOrderBasedOnCheckout(checkout);
 
-        double total = createOrderProductsCalculateTotal(checkout,order);
+        double subTotal = createOrderProductsCalculateTotal(checkout,order);
+        order.setSubTotal(subTotal);
+
+        double total;
+
+        System.out.println("ES ELEGIBLE????" + isEligible);
+
+        if (isEligible) {
+            total = applyDiscount(subTotal, 0.15);
+        } else {
+            total = subTotal;
+        }
+
         order.setTotal(total);
 
         Transaction transaction = generateTransaction(order);
@@ -377,6 +398,17 @@ public class CheckoutServiceImpl implements CheckoutService {
         return checkoutProduct;
     }
 
+    private boolean isEligibleForDiscount(String email) {
+        User user = getUser(email);
+        List<Order> orders = this.orderRepository.findAllByUser(user);
+
+        return orders.isEmpty();
+    }
+
+    private double applyDiscount(double amount, double discountRate) {
+        return amount * (1 - discountRate);
+    }
+
     private String getEmailFromAuthHeader(String authHeader) {
         String jwt = authHeader.substring(7);
 
@@ -384,5 +416,6 @@ public class CheckoutServiceImpl implements CheckoutService {
 
         return jwtService.extractUsername(jwt);
     }
+
 
 }

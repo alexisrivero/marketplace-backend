@@ -41,6 +41,9 @@ public class Order {
     private Transaction transaction;
 
     @Column
+    private double subTotal;
+
+    @Column
     private double total;
 
 }

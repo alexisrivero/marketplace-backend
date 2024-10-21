@@ -21,4 +21,5 @@ public class CheckoutDTO {
     private CreateAddressDTO address;
     private PaymentMethodNoIdDTO paymentMethod;
     private double subTotal;
+    private double total;
 }

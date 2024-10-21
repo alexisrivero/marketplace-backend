@@ -42,6 +42,7 @@ public class SecurityConfig {
                                         .requestMatchers("/checkout/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
                                         .requestMatchers("/order/user/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
                                         .requestMatchers("/user/**").hasAnyAuthority(Role.ADMIN.name())
+                                        .requestMatchers("/order/elegible").hasAnyAuthority(Role.USER.name())
                                         .requestMatchers("/order/**").hasAnyAuthority(Role.ADMIN.name())
                                         .anyRequest().authenticated()
                         )

@@ -12,4 +12,6 @@ public interface OrderService {
     OrderDTO getCurrentUserOrderById(String email,long id);
 
     OrderDTO getOrderById(long id);
+
+    boolean esElegible(String authHeader);
 }
