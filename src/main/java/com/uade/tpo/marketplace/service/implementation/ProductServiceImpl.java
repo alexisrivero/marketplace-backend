@@ -1,5 +1,6 @@
 package com.uade.tpo.marketplace.service.implementation;
 
+import com.uade.tpo.marketplace.dto.CategoryDTO;
 import com.uade.tpo.marketplace.dto.ProductDTO;
 import com.uade.tpo.marketplace.entity.Product;
 import com.uade.tpo.marketplace.exceptions.ResourceNotFoundException;
@@ -16,9 +17,7 @@ import jakarta.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -146,16 +145,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<String> getCategories() {
+    public List<CategoryDTO> getCategories() {
         List<Product> products = this.productRepository.findAll();
-        List<String> categories = new ArrayList<>();
+        Set<String> categories = new HashSet<>();
+        List<CategoryDTO> categoryDTOList = new ArrayList<>();
 
         for (Product product : products) {
-            if (!categories.contains(product.getCategory())) {
-                categories.add(product.getCategory());
-            }
+            categories.add(product.getCategory());
         }
-        return categories;
+
+        for (String category : categories) {
+            CategoryDTO dto = new CategoryDTO();
+            dto.setCategoryName(category);
+            categoryDTOList.add(dto);
+        }
+
+        return categoryDTOList;
     }
 
 

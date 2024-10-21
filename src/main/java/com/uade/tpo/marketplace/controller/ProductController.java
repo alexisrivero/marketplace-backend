@@ -1,5 +1,6 @@
 package com.uade.tpo.marketplace.controller;
 
+import com.uade.tpo.marketplace.dto.CategoryDTO;
 import com.uade.tpo.marketplace.dto.ProductDTO;
 import com.uade.tpo.marketplace.entity.Product;
 import com.uade.tpo.marketplace.service.ProductService;
@@ -46,8 +47,8 @@ public class ProductController {
     }
 
     @GetMapping("/category")
-    public ResponseEntity<List<String>> getCategories() {
-        List<String> categoryList = this.productService.getCategories();
+    public ResponseEntity<List<CategoryDTO>> getCategories() {
+        List<CategoryDTO> categoryList = this.productService.getCategories();
         return new ResponseEntity<>(categoryList, HttpStatusCode.valueOf(200));
     }
     @GetMapping("/category/{category}")

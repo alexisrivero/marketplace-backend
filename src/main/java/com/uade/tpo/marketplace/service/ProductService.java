@@ -1,5 +1,6 @@
 package com.uade.tpo.marketplace.service;
 
+import com.uade.tpo.marketplace.dto.CategoryDTO;
 import com.uade.tpo.marketplace.dto.ProductDTO;
 import com.uade.tpo.marketplace.entity.Product;
 
@@ -23,5 +24,5 @@ public interface ProductService {
 
     List<ProductDTO> getAllProductsByCategory(String category);
 
-    List<String> getCategories();
+    List<CategoryDTO> getCategories();
 }
