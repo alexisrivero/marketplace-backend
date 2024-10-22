@@ -147,9 +147,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-    public UserDTO getUserById(String  authHeader) {
-        String email = this.getEmailFromAuthHeader(authHeader);
-        UserDTO user = getUser(email);
+    public Optional<User> getUserById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            throw new ResourceNotFoundException("User not found with ID: " + id);
+        }
         return user;
     }
 

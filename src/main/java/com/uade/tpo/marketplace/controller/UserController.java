@@ -1,10 +1,16 @@
 package com.uade.tpo.marketplace.controller;
 
-import com.uade.tpo.marketplace.dto.*;
+import com.uade.tpo.marketplace.dto.CreateAddressDTO;
+import com.uade.tpo.marketplace.dto.CreatePaymentMethodDTO;
+import com.uade.tpo.marketplace.dto.PaymentMethodDTO;
+import com.uade.tpo.marketplace.dto.UserAddressDTO;
+import com.uade.tpo.marketplace.entity.Address;
+import com.uade.tpo.marketplace.entity.PaymentMethod;
 import com.uade.tpo.marketplace.entity.User;
 import com.uade.tpo.marketplace.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +29,10 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @GetMapping("/")
-    public ResponseEntity<UserDTO> getUserById(@RequestHeader("Authorization") String authHeader) {
-        UserDTO result = userService.getUserById(authHeader);
-        return ResponseEntity.ok(result);
+    @GetMapping("/{userId}")
+    public ResponseEntity<User> getUserById(@PathVariable("userId") Long userId) {
+        Optional<User> result = userService.getUserById(userId);
+        return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
     }
 
     @DeleteMapping("/{userId}")
