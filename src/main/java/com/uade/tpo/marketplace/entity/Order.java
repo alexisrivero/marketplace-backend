@@ -27,10 +27,10 @@ public class Order {
     @JsonIgnore
     private User user;
 
-    @OneToOne
+    @ManyToOne
     private Address address;
 
-    @OneToOne
+    @ManyToOne
     private PaymentMethod paymentMethod;
 
     @Column
