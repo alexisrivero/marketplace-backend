@@ -3,6 +3,7 @@ package com.uade.tpo.marketplace.controller;
 import com.uade.tpo.marketplace.dto.CategoryDTO;
 import com.uade.tpo.marketplace.dto.ProductDTO;
 import com.uade.tpo.marketplace.entity.Product;
+import com.uade.tpo.marketplace.exceptions.InvalidCategoryException;
 import com.uade.tpo.marketplace.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;

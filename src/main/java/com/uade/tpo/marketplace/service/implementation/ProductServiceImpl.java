@@ -3,6 +3,8 @@ package com.uade.tpo.marketplace.service.implementation;
 import com.uade.tpo.marketplace.dto.CategoryDTO;
 import com.uade.tpo.marketplace.dto.ProductDTO;
 import com.uade.tpo.marketplace.entity.Product;
+import com.uade.tpo.marketplace.enums.ProductCategories;
+import com.uade.tpo.marketplace.exceptions.InvalidCategoryException;
 import com.uade.tpo.marketplace.exceptions.ResourceNotFoundException;
 import com.uade.tpo.marketplace.mapper.ProductMapper;
 import com.uade.tpo.marketplace.repository.ProductRepository;
@@ -33,6 +35,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product addProduct(Product product) {
+        validateProductCategory(product.getCategory());
+
         return this.productRepository.save(product);
     }
 
@@ -109,6 +113,8 @@ public class ProductServiceImpl implements ProductService {
             throw new ResourceNotFoundException("There is no product with this id");
         }
 
+        validateProductCategory(product.getCategory());
+
         productToUpdate.get().setName(product.getName());
         productToUpdate.get().setBrand(product.getBrand());
         productToUpdate.get().setCategory(product.getCategory());
@@ -163,5 +169,12 @@ public class ProductServiceImpl implements ProductService {
         return categoryDTOList;
     }
 
+    private void validateProductCategory(String category) throws InvalidCategoryException {
+        boolean isValidCategory = Arrays.stream(ProductCategories.values())
+                .anyMatch(c -> c.name().equalsIgnoreCase(category));
+        if (!isValidCategory) {
+            throw new InvalidCategoryException("Invalid product category: " + category);
+        }
+    }
 
 }
