@@ -20,7 +20,7 @@ public interface UserService {
     void editPaymentMethod(Long paymentMethodId, CreatePaymentMethodDTO createPaymentMethodDTO);
     void deletePaymentMethod(Long paymentMethodId);
     List<User> getAllUsers();
-    Optional<User> getUserById(Long id);
+    UserDTO getUserById(String authHeader);
     void deleteUserById(Long userId) throws RuntimeException;
 
 }
