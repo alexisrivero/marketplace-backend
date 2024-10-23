@@ -16,6 +16,7 @@ import com.uade.tpo.marketplace.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,10 +36,13 @@ public class UserServiceImpl implements UserService {
     private JwtService jwtService;
 
     @Override
-    public UserDTO getUser(String email) {
+    public UserDTO getUser(String authHeader) {
+        String email = this.getEmailFromAuthHeader(authHeader);
         User user = this.findUser(email);
 
-        return UserMapper.INSTANCE.userToUserDTO(user);
+        UserDTO dto = this.mapUserToUserDTO(user);
+
+        return dto;
     }
 
     @Override
@@ -147,12 +151,17 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-    public Optional<User> getUserById(Long id) {
+    public UserDTO getUserById(Long id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
             throw new ResourceNotFoundException("User not found with ID: " + id);
         }
-        return user;
+
+        User foundUser = user.get();
+
+        UserDTO dto = this.mapUserToUserDTO(foundUser);
+
+        return dto;
     }
 
     public void deleteUserById(Long userId) throws RuntimeException {
@@ -178,4 +187,43 @@ public class UserServiceImpl implements UserService {
         return jwtService.extractUsername(jwt);
     }
 
+
+    private UserDTO mapUserToUserDTO(User user) {
+        UserDTO dto = new UserDTO();
+
+        dto.setEmail(user.getEmail());
+        dto.setUserName(user.getUsername());
+        dto.setFirstName(user.getName());
+        dto.setLastName(user.getLastName());
+        dto.setPhoneNumber(user.getPhoneNumber());
+
+        List<CreateAddressDTO> addressDTOList= new ArrayList<>();
+
+        for (Address address: user.getAddresses()) {
+            CreateAddressDTO addressDTO = new CreateAddressDTO();
+            addressDTO.setCity(address.getCity());
+            addressDTO.setStreet(address.getStreet());
+            addressDTO.setState(address.getState());
+            addressDTO.setHouseNumber(address.getHouseNumber());
+            addressDTO.setDescription(address.getDescription());
+            addressDTOList.add(addressDTO);
+        }
+
+        dto.setAddress(addressDTOList);
+
+        List<PaymentMethodNoIdDTO> paymentMethodNoIdDTOList = new ArrayList<>();
+
+        for (PaymentMethod paymentMethod: user.getPaymentMethods()) {
+            PaymentMethodNoIdDTO paymentMethodNoIdDTO = new PaymentMethodNoIdDTO();
+            paymentMethodNoIdDTO.setCardNumber(paymentMethod.getCardNumber());
+            paymentMethodNoIdDTO.setCardType(paymentMethod.getCardType());
+            paymentMethodNoIdDTO.setOwnerName(paymentMethod.getOwnerName());
+            paymentMethodNoIdDTO.setExpirationDate(paymentMethod.getExpirationDate());
+            paymentMethodNoIdDTOList.add(paymentMethodNoIdDTO);
+        }
+
+        dto.setPaymentMethods(paymentMethodNoIdDTOList);
+
+        return dto;
+    }
 }

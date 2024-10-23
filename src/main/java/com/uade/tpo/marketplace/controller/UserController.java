@@ -1,9 +1,6 @@
 package com.uade.tpo.marketplace.controller;
 
-import com.uade.tpo.marketplace.dto.CreateAddressDTO;
-import com.uade.tpo.marketplace.dto.CreatePaymentMethodDTO;
-import com.uade.tpo.marketplace.dto.PaymentMethodDTO;
-import com.uade.tpo.marketplace.dto.UserAddressDTO;
+import com.uade.tpo.marketplace.dto.*;
 import com.uade.tpo.marketplace.entity.Address;
 import com.uade.tpo.marketplace.entity.PaymentMethod;
 import com.uade.tpo.marketplace.entity.User;
@@ -30,9 +27,14 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable("userId") Long userId) {
-        Optional<User> result = userService.getUserById(userId);
-        return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
+    public ResponseEntity<UserDTO> getUserById(@PathVariable("userId") Long userId) {
+        UserDTO result = userService.getUserById(userId);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/current")
+    public ResponseEntity<UserDTO> getCurrentUser(@RequestHeader("Authorization") String authHeader) {
+        return new ResponseEntity<>(this.userService.getUser(authHeader), HttpStatus.OK);
     }
 
     @DeleteMapping("/{userId}")
